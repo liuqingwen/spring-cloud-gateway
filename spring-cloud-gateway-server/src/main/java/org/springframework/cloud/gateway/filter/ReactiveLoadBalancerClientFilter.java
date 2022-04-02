@@ -1,5 +1,7 @@
 /*
- * Copyright 2013-2020 the original author or authors.
+ * 反应式负载均衡器客户端筛选器
+ * <p></p>
+ *  Copyright 2013-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,21 +103,27 @@ public class ReactiveLoadBalancerClientFilter implements GlobalFilter, Ordered {
 		if (url == null || (!"lb".equals(url.getScheme()) && !"lb".equals(schemePrefix))) {
 			return chain.filter(exchange);
 		}
-		// preserve the original url
+
+		// preserve the original url   // 保留原始url
 		addOriginalRequestUrl(exchange, url);
 
 		if (log.isTraceEnabled()) {
 			log.trace(ReactiveLoadBalancerClientFilter.class.getSimpleName() + " url before: " + url);
 		}
 
+		// 网关请求URL属性
 		URI requestUri = exchange.getAttribute(GATEWAY_REQUEST_URL_ATTR);
-		String serviceId = requestUri.getHost();
+		String serviceId = requestUri.getHost();  // host 即是应用名 ==  serviceId   ==  applicationName
+
 		Set<LoadBalancerLifecycle> supportedLifecycleProcessors = LoadBalancerLifecycleValidator
 				.getSupportedLifecycleProcessors(clientFactory.getInstances(serviceId, LoadBalancerLifecycle.class),
 						RequestDataContext.class, ResponseData.class, ServiceInstance.class);
+
 		DefaultRequest<RequestDataContext> lbRequest = new DefaultRequest<>(
 				new RequestDataContext(new RequestData(exchange.getRequest()), getHint(serviceId)));
-		return choose(lbRequest, serviceId, supportedLifecycleProcessors).doOnNext(response -> {
+
+		return choose(lbRequest, serviceId, supportedLifecycleProcessors)
+				.doOnNext(response -> {
 
 			if (!response.hasServer()) {
 				supportedLifecycleProcessors.forEach(lifecycle -> lifecycle

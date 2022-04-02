@@ -92,6 +92,8 @@ public final class ServerWebExchangeUtils {
 	public static final String GATEWAY_REQUEST_URL_ATTR = qualify("gatewayRequestUrl");
 
 	/**
+	 * 网关原始请求URL属性名称。
+	 * <p></p>
 	 * Gateway original request URL attribute name.
 	 */
 	public static final String GATEWAY_ORIGINAL_REQUEST_URL_ATTR = qualify("gatewayOriginalRequestUrl");
@@ -256,6 +258,11 @@ public final class ServerWebExchangeUtils {
 		return httpStatus;
 	}
 
+	/**
+	 * 保留原始URL
+	 * @param exchange
+	 * @param url
+	 */
 	public static void addOriginalRequestUrl(ServerWebExchange exchange, URI url) {
 		exchange.getAttributes().computeIfAbsent(GATEWAY_ORIGINAL_REQUEST_URL_ATTR, s -> new LinkedHashSet<>());
 		LinkedHashSet<URI> uris = exchange.getRequiredAttribute(GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
