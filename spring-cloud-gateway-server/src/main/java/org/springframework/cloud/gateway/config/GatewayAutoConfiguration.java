@@ -549,6 +549,12 @@ public class GatewayAutoConfiguration {
 
 	@Bean
 	@ConditionalOnEnabledFilter
+	// 工作原理  继承 GatewayFilterFactory 类的类，去掉GatewayFilterFactory剩余加上固定配置，是否开启。
+	// 例如：spring.cloud.gateway.filter.retry.enabled = true
+
+	// 工作路径
+	// OnEnabledFilter#normalizeComponentName()
+	// OnEnabledComponent#determineOutcome()  根据返回结果来判断是否实例化，以下对象。
 	public RetryGatewayFilterFactory retryGatewayFilterFactory() {
 		return new RetryGatewayFilterFactory();
 	}
