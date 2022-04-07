@@ -87,6 +87,7 @@ public final class ServerWebExchangeUtils {
 	public static final String GATEWAY_ROUTE_ATTR = qualify("gatewayRoute");
 
 	/**
+	 * gateway 请求过程，存放请求url属性名
 	 * Gateway request URL attribute name.
 	 */
 	public static final String GATEWAY_REQUEST_URL_ATTR = qualify("gatewayRequestUrl");
