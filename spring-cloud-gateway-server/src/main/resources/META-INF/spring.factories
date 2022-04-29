@@ -2,7 +2,22 @@
 # org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
 #   ????????? spring-web??? webflux?
 # org.springframework.cloud.gateway.config.GatewayAutoConfiguration
-#   StringToZonedDateTimeConverter?
+#   ??? DispatcherHandler -> AbstractHandlerMapping#getHandler -> RoutePredicateHandlerMapping#getHandlerInternal
+#   ?????????  CachingRouteLocator
+# org.springframework.cloud.gateway.config.GatewayResilience4JCircuitBreakerAutoConfiguration
+#   Resilience4j ????
+# org.springframework.cloud.gateway.config.GatewayNoLoadBalancerClientAutoConfiguration
+#   ???????
+# org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration
+#   ????  GatewayMetricsFilter  ??Filter???
+# org.springframework.cloud.gateway.config.GatewayRedisAutoConfiguration
+#   Redis ???????
+# org.springframework.cloud.gateway.discovery.GatewayDiscoveryClientAutoConfiguration
+#   Discovery??????????(DiscoveryClientRouteDefinitionLocator) ??
+# org.springframework.cloud.gateway.config.SimpleUrlHandlerMappingGlobalCorsAutoConfiguration
+#   CORS ??
+# org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClientAutoConfiguration
+#   ???????????
 
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\

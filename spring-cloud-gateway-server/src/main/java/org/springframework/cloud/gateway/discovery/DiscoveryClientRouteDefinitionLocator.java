@@ -41,6 +41,8 @@ import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.util.StringUtils;
 
 /**
+ * Discovery客户端路由定义定位器
+ * <br/>
  * TODO: change to RouteLocator? use java dsl
  *
  * @author Spencer Gibb
