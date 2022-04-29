@@ -71,6 +71,7 @@ public interface RoutePredicateFactory<C> extends ShortcutConfigurable, Configur
 		return toAsyncPredicate(apply(config));
 	}
 
+	// 类名去掉RoutePredicateFactory剩余部分。
 	default String name() {
 		return NameUtils.normalizeRoutePredicateName(getClass());
 	}

@@ -185,6 +185,11 @@ public class GatewayAutoConfiguration {
 		return new RouteLocatorBuilder(context);
 	}
 
+
+	// PropertiesRouteDefinitionLocator、InMemoryRouteDefinitionRepository  是同源(RouteDefinitionLocator)的实现类。都属于路由定义加载的源。
+	// CompositeRouteDefinitionLocator  复合路由定位器（聚合 RouteDefinitionLocator集合）
+
+	// 配置文件   加载路由定义
 	@Bean
 	@ConditionalOnMissingBean
 	public PropertiesRouteDefinitionLocator propertiesRouteDefinitionLocator(GatewayProperties properties) {
@@ -210,6 +215,9 @@ public class GatewayAutoConfiguration {
 		return new ConfigurationService(beanFactory, conversionService, validator);
 	}
 
+	// 路由定位器，通过Uri找到对应的路由
+	// routeDefinitionLocator == CompositeRouteDefinitionLocator
+	// 条件&断言集合
 	@Bean
 	public RouteLocator routeDefinitionRouteLocator(GatewayProperties properties,
 			List<GatewayFilterFactory> gatewayFilters, List<RoutePredicateFactory> predicates,
@@ -218,6 +226,7 @@ public class GatewayAutoConfiguration {
 				configurationService);
 	}
 
+	// RouteLocator 与 RouteDefinitionLocator 模式相同。
 	@Bean
 	@Primary
 	@ConditionalOnMissingBean(name = "cachedCompositeRouteLocator")
@@ -232,6 +241,7 @@ public class GatewayAutoConfiguration {
 		return new RouteRefreshListener(publisher);
 	}
 
+	// filter 链
 	@Bean
 	public FilteringWebHandler filteringWebHandler(List<GlobalFilter> globalFilters) {
 		return new FilteringWebHandler(globalFilters);
@@ -242,6 +252,8 @@ public class GatewayAutoConfiguration {
 		return new GlobalCorsProperties();
 	}
 
+	// DispatcherHandler -> AbstractHandlerMapping#getHandler -> RoutePredicateHandlerMapping#getHandlerInternal
+	// 当匹配到路由，则将路由放入exchange.getAttributes().put(GATEWAY_ROUTE_ATTR, r); gatewayRoute，返回 FilteringWebHandler
 	@Bean
 	@ConditionalOnMissingBean
 	public RoutePredicateHandlerMapping routePredicateHandlerMapping(FilteringWebHandler webHandler,
@@ -342,6 +354,7 @@ public class GatewayAutoConfiguration {
 		return new WebsocketRoutingFilter(webSocketClient, webSocketService, headersFilters);
 	}
 
+	// 权重计算 ？
 	@Bean
 	@ConditionalOnEnabledPredicate(WeightRoutePredicateFactory.class)
 	public WeightCalculatorWebFilter weightCalculatorWebFilter(ConfigurationService configurationService,
@@ -533,6 +546,8 @@ public class GatewayAutoConfiguration {
 		return new PrincipalNameKeyResolver();
 	}
 
+	// 请求限速   超过阈值返回429HTTP状态码
+	// 默认不开启，有一个Redis的实现方案，需要主动配置开启
 	@Bean
 	@ConditionalOnBean({ RateLimiter.class, KeyResolver.class })
 	@ConditionalOnEnabledFilter

@@ -28,6 +28,8 @@ import org.springframework.util.ObjectUtils;
 import static java.util.Collections.synchronizedMap;
 
 /**
+ * 内存路由定义存储库
+ * <br/>
  * @author Spencer Gibb
  */
 public class InMemoryRouteDefinitionRepository implements RouteDefinitionRepository {

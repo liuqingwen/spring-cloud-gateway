@@ -56,6 +56,7 @@ public class RouteDefinitionRouteLocator implements RouteLocator {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	// 复合路由定义定位器 CompositeRouteDefinitionLocator
 	private final RouteDefinitionLocator routeDefinitionLocator;
 
 	private final ConfigurationService configurationService;

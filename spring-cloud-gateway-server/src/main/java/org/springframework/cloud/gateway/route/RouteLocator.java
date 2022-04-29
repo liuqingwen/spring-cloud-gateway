@@ -19,6 +19,8 @@ package org.springframework.cloud.gateway.route;
 import reactor.core.publisher.Flux;
 
 /**
+ * 路由定位器
+ * <br/>
  * @author Spencer Gibb
  */
 // TODO: rename to Routes?

@@ -1,4 +1,10 @@
 # Auto Configure
+# org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration
+#   ????????? spring-web??? webflux?
+# org.springframework.cloud.gateway.config.GatewayAutoConfiguration
+#   StringToZonedDateTimeConverter?
+
+
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.cloud.gateway.config.GatewayClassPathWarningAutoConfiguration,\
 org.springframework.cloud.gateway.config.GatewayAutoConfiguration,\

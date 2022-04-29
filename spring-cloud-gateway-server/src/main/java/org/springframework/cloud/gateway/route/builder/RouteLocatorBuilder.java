@@ -28,6 +28,10 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
+ * 路线 定位器 生成器
+ * <br/>
+ * AutoConfig 创建对象的时候，将容器放入路线 定位器 生成器
+ * <br/>
  * Used to build a {@link RouteLocator}.
  */
 public class RouteLocatorBuilder {

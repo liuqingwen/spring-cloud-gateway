@@ -37,12 +37,15 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR;
 
 /**
+ * 路由谓词处理程序映射
+ * <br/>
  * @author Spencer Gibb
  */
 public class RoutePredicateHandlerMapping extends AbstractHandlerMapping {
 
 	private final FilteringWebHandler webHandler;
 
+	// CompositeRouteLocator 复合路由定位器
 	private final RouteLocator routeLocator;
 
 	private final Integer managementPort;
@@ -76,12 +79,17 @@ public class RoutePredicateHandlerMapping extends AbstractHandlerMapping {
 	@Override
 	protected Mono<?> getHandlerInternal(ServerWebExchange exchange) {
 		// don't handle requests on management port if set and different than server port
+		// 管理端口与服务端口是否一致
+		// 当使用管理端口调用的时候，直接返回空路由
+		// 前端调用端口是管理端口 exchange.getRequest().getURI().getPort() == this.managementPort
 		if (this.managementPortType == DIFFERENT && this.managementPort != null
 				&& exchange.getRequest().getURI().getPort() == this.managementPort) {
 			return Mono.empty();
 		}
 		exchange.getAttributes().put(GATEWAY_HANDLER_MAPPER_ATTR, getSimpleName());
 
+		// 当匹配到路由，则将路由放入exchange.getAttributes().put(GATEWAY_ROUTE_ATTR, r); gatewayRoute
+		// 返回 FilteringWebHandler
 		return lookupRoute(exchange)
 				// .log("route-predicate-handler-mapping", Level.FINER) //name this
 				.flatMap((Function<Route, Mono<?>>) r -> {
@@ -168,6 +176,8 @@ public class RoutePredicateHandlerMapping extends AbstractHandlerMapping {
 		return "RoutePredicateHandlerMapping";
 	}
 
+	// management 管理
+	// 管理端口类型
 	public enum ManagementPortType {
 
 		/**
@@ -181,6 +191,7 @@ public class RoutePredicateHandlerMapping extends AbstractHandlerMapping {
 		SAME,
 
 		/**
+		 * 管理网口与服务器端口不一致。 <br/>
 		 * The management port and server port are different.
 		 */
 		DIFFERENT;

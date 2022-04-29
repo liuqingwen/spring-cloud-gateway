@@ -228,6 +228,7 @@ public class RetryGatewayFilterFactory extends AbstractGatewayFilterFactory<Retr
 		return (exchange, chain) -> {
 			trace("Entering retry-filter");
 
+			// chain 是 DefaultGatewayFilterChain filter循环链
 			// chain.filter returns a Mono<Void>
 			Publisher<Void> publisher = chain.filter(exchange)
 					// .log("retry-filter", Level.INFO)
